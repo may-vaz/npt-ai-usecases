@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>AI Use Cases for Reducing Non-Productive Time in Drilling &amp; Well Delivery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" onerror="this.onerror=null;document.write('<script src=\'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js\'><\/script>')"></script>
+<style>
+  :root{
+    --navy:#10263B; --rust:#B75A35; --teal:#2E8C82; --mist:#EEF2F4;
+    --ink:#12181F; --paper:#FFFFFF; --gray:#5C6B78; --line:#DCE3E7;
+    --font-head:'Space Grotesk','Segoe UI',Arial,sans-serif;
+    --font-body:'Inter','Segoe UI',Arial,sans-serif;
+  }
+  :root[data-theme="dark"]{ --mist:#EEF2F4; --paper:#FFFFFF; --ink:#12181F; }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; scroll-padding-top:env(safe-area-inset-top,0px); }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55;
+    -webkit-font-smoothing:antialiased; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); overflow-x:hidden; }
+  h1,h2,h3{ font-family:var(--font-head); margin:0; letter-spacing:-0.01em; }
+  p{ margin:0; } a{ color:inherit; }
+  ::selection{ background:var(--rust); color:#fff; }
+  :focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 clamp(20px,5vw,64px); }
+  #progress{ position:fixed; top:env(safe-area-inset-top,0px); left:0; height:3px; width:0%; background:var(--rust); z-index:500; transition:width 60ms linear; }
+
+  /* HERO */
+  .hero{ position:relative; min-height:100svh; background:var(--navy); color:#fff; display:flex; align-items:center; overflow:hidden; }
+  .hero-orb{ position:absolute; border-radius:50%; will-change:transform; }
+  .orb-a{ width:640px; height:640px; right:-220px; top:-260px; background:radial-gradient(circle at 35% 35%, #1c3a55, #10263B 70%); }
+  .orb-b{ width:380px; height:380px; right:180px; top:120px; background:radial-gradient(circle at 40% 40%, #234a52, transparent 70%); border:1px solid rgba(46,140,130,.35); }
+  .orb-c{ width:220px; height:220px; left:-90px; bottom:-90px; background:transparent; border:1px solid rgba(183,90,53,.4); }
+  .hero-inner{ position:relative; z-index:2; padding:110px 0 70px; }
+  .hero-kicker{ font-size:14px; color:#9FC6C1; font-weight:500; max-width:560px; }
+  .hero h1{ font-size:clamp(30px,4.6vw,50px); font-weight:600; line-height:1.12; margin-top:20px; max-width:960px; }
+  .hero p.lede{ margin-top:22px; max-width:640px; font-size:17px; color:#C7D3DA; }
+  .reframe{ margin-top:34px; max-width:760px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:12px; padding:20px 22px; }
+  .reframe p{ font-size:14.5px; color:#DCE5EF; }
+  .reframe b{ color:#fff; }
+  .scroll-cue{ position:absolute; left:clamp(20px,5vw,64px); bottom:36px; z-index:2; display:flex; align-items:center; gap:10px; color:#9FB0BC; font-size:13px; }
+  .scroll-cue .stem{ width:1px; height:34px; background:linear-gradient(#9FB0BC, transparent); }
+
+  section{ position:relative; }
+  .section-pad{ padding:92px 0; }
+  .light{ background:var(--mist); } .paper{ background:var(--paper); }
+  .eyebrow{ font-family:var(--font-head); font-size:14px; color:var(--rust); font-weight:600; }
+  .heading{ font-size:clamp(24px,3.1vw,34px); font-weight:600; margin-top:10px; max-width:760px; color:var(--navy); }
+  .sub{ margin-top:14px; max-width:680px; color:var(--gray); font-size:15.5px; }
+
+  /* Criteria */
+  .criteria-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-top:44px; }
+  @media (max-width:900px){ .criteria-grid{ grid-template-columns:repeat(2,1fr);} }
+  .criteria-card{ background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:18px 16px; }
+  .criteria-card .cn{ font-family:var(--font-head); font-size:20px; font-weight:700; color:var(--rust); }
+  .criteria-card h4{ margin-top:6px; font-size:13.5px; font-weight:600; color:var(--navy); }
+  .criteria-card p{ margin-top:6px; font-size:12px; color:var(--gray); line-height:1.45; }
+
+  /* priority table */
+  .prio-table{ margin-top:44px; width:100%; border-collapse:collapse; background:var(--paper); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .prio-table th,.prio-table td{ text-align:left; padding:13px 16px; font-size:13.5px; border-bottom:1px solid var(--line); }
+  .prio-table th{ background:var(--navy); color:#fff; font-weight:600; font-size:12.5px; }
+  .prio-table tr:last-child td{ border-bottom:none; }
+  .prio-dot{ display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:7px; }
+  .dot-high{ background:var(--teal); } .dot-mid{ background:#C9A227; } .dot-low{ background:var(--rust); }
+
+  /* ARCHITECTURE */
+  .arch-flow{ display:flex; align-items:stretch; gap:0; margin-top:48px; flex-wrap:wrap; }
+  .arch-step{ flex:1 1 220px; background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:20px 18px; min-width:200px; }
+  .arch-num{ font-family:var(--font-head); font-size:20px; font-weight:700; color:var(--rust); }
+  .arch-step h4{ margin-top:8px; font-size:14.5px; font-weight:600; color:var(--navy); }
+  .arch-step p{ margin-top:8px; font-size:12.5px; color:var(--gray); line-height:1.5; }
+  .arch-connector{ display:flex; align-items:center; justify-content:center; padding:0 10px; font-size:18px; color:var(--rust); flex:0 0 auto; }
+  @media (max-width:900px){ .arch-flow{ flex-direction:column; } .arch-connector{ transform:rotate(90deg); padding:4px 0; } }
+  .arch-note{ margin-top:26px; max-width:820px; font-size:12.5px; color:var(--gray); line-height:1.6; }
+
+  /* USE CASES */
+  .uc-section{ padding:104px 0 60px; }
+  .uc-list{ position:relative; margin-top:64px; }
+  .uc-spine-track{ position:absolute; left:29px; top:14px; bottom:14px; width:2px; background:var(--line); }
+  .uc-spine-fill{ position:absolute; left:29px; top:14px; width:2px; height:0%; background:var(--rust); transition:height 80ms linear; }
+  .uc-item{ position:relative; padding:0 0 76px 84px; }
+  .uc-item:last-child{ padding-bottom:8px; }
+  .uc-marker{ position:absolute; left:0; top:2px; width:59px; height:59px; border-radius:50%; background:var(--paper); border:2px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:19px; color:var(--gray);
+    transition:border-color .4s ease, color .4s ease, background .4s ease; }
+  .uc-item.active .uc-marker{ border-color:var(--rust); color:#fff; background:var(--rust); }
+  @media (max-width:860px){ .uc-item{ padding-left:66px; } .uc-marker{ width:48px; height:48px; font-size:16px; } .uc-spine-track,.uc-spine-fill{ left:23px; } }
+
+  .uc-head-row{ display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+  .uc-title{ font-size:22px; font-weight:600; color:var(--navy); line-height:1.25; max-width:650px; }
+  .uc-priority{ font-size:11.5px; font-weight:600; padding:5px 12px; border-radius:20px; white-space:nowrap; }
+  .pr-high{ background:rgba(46,140,130,.13); color:var(--teal); }
+  .pr-med{ background:rgba(201,162,39,.15); color:#8a6d17; }
+  .pr-low{ background:rgba(183,90,53,.12); color:var(--rust); }
+
+  .uc-fields{ margin-top:22px; display:grid; grid-template-columns:repeat(2,1fr); gap:14px 28px; }
+  @media (max-width:860px){ .uc-fields{ grid-template-columns:1fr; } }
+  .uc-field dt{ font-size:11.5px; font-weight:700; color:var(--rust); text-transform:uppercase; letter-spacing:.03em; }
+  .uc-field dd{ margin:5px 0 0; font-size:14px; color:var(--ink); line-height:1.5; }
+  .uc-field.span2{ grid-column:1 / -1; }
+
+  .uc-evidence{ margin-top:26px; background:var(--mist); border:1px solid var(--line); border-radius:12px; padding:20px 22px; }
+  .uc-evidence-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:center; }
+  @media (max-width:860px){ .uc-evidence-grid{ grid-template-columns:1fr; } }
+  .uc-evidence h4{ font-size:12.5px; font-weight:700; color:var(--navy); text-transform:uppercase; letter-spacing:.03em; }
+  .uc-evidence .chart-wrap{ margin-top:12px; }
+  .uc-evidence .chart-wrap canvas{ max-height:190px; }
+  .chart-key{ margin-top:8px; font-size:11.5px; color:var(--gray); display:flex; align-items:center; flex-wrap:wrap; }
+  .key-dot{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; }
+  .ev-stat-row{ display:flex; gap:22px; flex-wrap:wrap; margin-top:12px; }
+  .ev-stat b{ display:block; font-family:var(--font-head); font-size:24px; color:var(--navy); }
+  .ev-stat span{ font-size:11.5px; color:var(--gray); }
+  .ev-src{ margin-top:14px; font-size:11px; color:#8996A2; line-height:1.5; }
+
+  /* FURTHER */
+  .further{ background:var(--navy); color:#fff; padding:104px 0; }
+  .further .eyebrow{ color:var(--teal); } .further .heading{ color:#fff; } .further .sub{ color:#B9C6D0; }
+  .closing-note{ margin-top:44px; max-width:820px; background:#16324A; border:1px solid #234A63; border-radius:12px; padding:26px 28px; }
+  .closing-note p{ font-size:15px; color:#DCE5EF; line-height:1.65; }
+  .closing-note p + p{ margin-top:14px; }
+  .methodology-note{ background:var(--ink); color:#8996A2; text-align:center; font-size:12px; padding:18px clamp(20px,5vw,64px) 0; margin:0; }
+
+  footer{ background:var(--ink); color:#8996A2; padding:32px 0; font-size:12.5px; }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-orb orb-a" data-parallax="0.12"></div>
+  <div class="hero-orb orb-b" data-parallax="0.22"></div>
+  <div class="hero-orb orb-c" data-parallax="0.08"></div>
+  <div class="wrap hero-inner">
+    <div class="hero-kicker">Technical response · Well delivery &amp; drilling performance</div>
+    <h1>What are the best AI use cases for cutting non-productive time in drilling and well delivery?</h1>
+    <p class="lede">Five use cases, each defined as: a specific delay, the data behind it, what the AI does, who acts on it, and how the result is measured.</p>
+  </div>
+  <div class="scroll-cue"><div class="stem"></div>Scroll</div>
+</section>
+
+<section class="light section-pad">
+  <div class="wrap">
+    <div class="eyebrow">Not every AI idea belongs on this list</div>
+    <h2 class="heading">Selection criteria</h2>
+    <p class="sub">Each candidate use case was tested against five criteria before making the cut; the same lens is used to rank them further down the page.</p>
+    <div class="criteria-grid">
+      <div class="criteria-card"><div class="cn">01</div><h4>NPT impact</h4><p>Does it target a documented, sizeable share of lost time, not a marginal edge case?</p></div>
+      <div class="criteria-card"><div class="cn">02</div><h4>Data readiness</h4><p>Does the required data already exist in a usable form, or does it need new instrumentation first?</p></div>
+      <div class="criteria-card"><div class="cn">03</div><h4>Time to value</h4><p>Can it produce a measurable result in one drilling season, not a multi-year build?</p></div>
+      <div class="criteria-card"><div class="cn">04</div><h4>Safety &amp; explainability</h4><p>Can every output be traced to evidence, with a human making the final call?</p></div>
+      <div class="criteria-card"><div class="cn">05</div><h4>Ease of adoption</h4><p>Does it fit how the driller, engineer or planner already works, or does it demand a new workflow?</p></div>
+    </div>
+
+    <table class="prio-table">
+      <tr><th>Use case</th><th>Priority</th><th>Why this ranking</th></tr>
+      <tr><td>1 · Pre-spud offset-well intelligence</td><td><span class="prio-dot dot-high"></span>High</td><td>Runs entirely on documents that already exist; fastest time to value</td></tr>
+      <tr><td>2 · Real-time early warning</td><td><span class="prio-dot dot-high"></span>High</td><td>Largest single NPT category, but needs live rig connectivity to deploy</td></tr>
+      <tr><td>3 · Daily lookahead &amp; constraint management</td><td><span class="prio-dot dot-mid"></span>Medium</td><td>High value, but depends on clean logistics/status data feeds</td></tr>
+      <tr><td>4 · NPT classification &amp; root-cause analysis</td><td><span class="prio-dot dot-high"></span>High</td><td>Same document base as #1; turns tracking into a benchmarking asset</td></tr>
+      <tr><td>5 · Equipment failure prediction</td><td><span class="prio-dot dot-low"></span>Lower (for now)</td><td>Real value shown in pilots, but needs continuous sensor + maintenance data most rigs don't yet log consistently</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="paper uc-section" id="usecases">
+  <div class="wrap">
+    <div class="eyebrow">Structured by problem, not topic</div>
+    <h2 class="heading">The five use cases</h2>
+    <p class="sub">Each one follows the same structure: the operational problem, what the AI actually does, who acts on the output, what action it enables, and how success is measured, followed by the real evidence behind the numbers.</p>
+
+    <div class="uc-list" id="ucList">
+      <div class="uc-spine-track"></div>
+      <div class="uc-spine-fill" id="spineFill"></div>
+
+      <!-- UC1 -->
+      <div class="uc-item" data-uc>
+        <div class="uc-marker">01</div>
+        <div class="uc-head-row">
+          <div class="uc-title">Pre-spud offset-well intelligence</div>
+          <span class="uc-priority pr-high">High priority</span>
+        </div>
+        <dl class="uc-fields">
+          <div class="uc-field"><dt>Operational problem</dt><dd>Engineers spend a disproportionate share of well-planning time searching, cross-checking and reformatting old reports instead of deciding, most of it going into offset-well analysis rather than judgment.</dd></div>
+          <div class="uc-field"><dt>AI intervention</dt><dd>Reads historical end-of-well reports and daily reports, structures them, and surfaces comparable offset wells, past risks and mitigations that actually worked.</dd></div>
+          <div class="uc-field"><dt>Human user</dt><dd>Drilling / well engineer during well planning.</dd></div>
+          <div class="uc-field"><dt>Action enabled</dt><dd>The plan is amended, or a contingency is added, before spud, not discovered mid-well.</dd></div>
+          <div class="uc-field span2"><dt>Data required</dt><dd>End-of-well reports, daily reports, well logs, historical risk registers.</dd></div>
+          <div class="uc-field span2"><dt>Success measure</dt><dd>Planning time saved · number of relevant historical lessons surfaced · risks caught before spud.</dd></div>
+        </dl>
+        <div class="uc-evidence">
+          <h4>Evidence</h4>
+          <div class="uc-evidence-grid">
+            <div class="chart-wrap"><canvas id="chartUC1"></canvas></div>
+            <div>
+              <div class="ev-stat-row">
+                <div class="ev-stat"><b>&gt;40%</b><span>of engineers' time spent searching &amp; validating, not deciding</span></div>
+                <div class="ev-stat"><b>5s</b><span>to retrieve a ranked offset-well shortlist via vector search</span></div>
+              </div>
+              <div class="ev-src">Sources: Baker Hughes JewelSuite Well Engineering (offset-well search reduced from 5 days to 5 hours per project); Vertechs field note, 2026 ("engineers often spend over 40% of their time searching, cross-checking and validating information"); AADE-26-FTCE-102 (Morrison): offset-well vector search returned in under 5 seconds.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UC2 -->
+      <div class="uc-item" data-uc>
+        <div class="uc-marker">02</div>
+        <div class="uc-head-row">
+          <div class="uc-title">Real-time early warning during drilling</div>
+          <span class="uc-priority pr-high">High priority</span>
+        </div>
+        <dl class="uc-fields">
+          <div class="uc-field"><dt>Operational problem</dt><dd>Stuck pipe, pack-off, poor hole cleaning and losses often only become obvious once the situation has already deteriorated.</dd></div>
+          <div class="uc-field"><dt>AI intervention</dt><dd>Analyses live torque, drag, ROP, pressure and hole-depth data and flags combinations of signals matching historical problem patterns.</dd></div>
+          <div class="uc-field"><dt>Human user</dt><dd>Driller, drilling engineer and mud engineer.</dd></div>
+          <div class="uc-field"><dt>Action enabled</dt><dd>The team investigates and applies the approved operating procedure while there is still time to respond. The AI never controls the rig; it flags, the crew decides.</dd></div>
+          <div class="uc-field span2"><dt>Data required</dt><dd>Torque, drag, ROP, standpipe pressure, flow, hole depth, mud properties, historical stuck-pipe/kick event records.</dd></div>
+          <div class="uc-field span2"><dt>Success measure</dt><dd>Warning lead time · false-alert rate · number of alerts acted on successfully · avoided NPT hours.</dd></div>
+        </dl>
+        <div class="uc-evidence">
+          <h4>Evidence</h4>
+          <div class="uc-evidence-grid">
+            <div class="chart-wrap"><canvas id="chartUC2"></canvas></div>
+            <div>
+              <div class="ev-stat-row">
+                <div class="ev-stat"><b>1.5%</b><span>false-positive drilling hours in field-validated model</span></div>
+                <div class="ev-stat"><b>F1 ≈ 0.75</b><span>event-level detection score, same field trial</span></div>
+              </div>
+              <div class="ev-src">Sources: EAGE hybrid stuck-pipe workflow, field-validated on Asian wells, 2026 (all major events alerted, 19-hour average lead time, 1.5% false-positive drilling hours, F1 ≈ 0.75); Salminen et al., SPE-178888-PA, 2017 (Weatherford SPR method: 38-minute average lead time on shale wells, 2+ hours on a carbonate well, zero false alerts across the historical test set).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UC3 -->
+      <div class="uc-item" data-uc>
+        <div class="uc-marker">03</div>
+        <div class="uc-head-row">
+          <div class="uc-title">Daily lookahead &amp; constraint management</div>
+          <span class="uc-priority pr-med">Medium priority</span>
+        </div>
+        <dl class="uc-fields">
+          <div class="uc-field"><dt>Operational problem</dt><dd>Time is lost waiting on equipment, crew, approvals or materials that weren't ready when the schedule needed them: a logistics gap, not a subsurface one.</dd></div>
+          <div class="uc-field"><dt>AI intervention</dt><dd>Continuously compares the well plan against actual progress, open actions, and resource/logistics constraints to flag a likely delay before it reaches the critical path.</dd></div>
+          <div class="uc-field"><dt>Human user</dt><dd>Drilling superintendent / planner.</dd></div>
+          <div class="uc-field"><dt>Action enabled</dt><dd>Re-sequence activities, expedite an approval, or reposition equipment ahead of the conflict, instead of discovering it on the day.</dd></div>
+          <div class="uc-field span2"><dt>Data required</dt><dd>Well plan, execution status, equipment/crew availability, approval-workflow data.</dd></div>
+          <div class="uc-field span2"><dt>Success measure</dt><dd>Waiting hours avoided · schedule variance · overdue actions closed before impact.</dd></div>
+        </dl>
+        <div class="uc-evidence">
+          <h4>Evidence</h4>
+          <div class="uc-evidence-grid">
+            <div class="chart-wrap"><canvas id="chartUC3"></canvas></div>
+            <div>
+              <div class="ev-stat-row">
+                <div class="ev-stat"><b>99%</b><span>less time to generate an optimal schedule vs. manual methods</span></div>
+                <div class="ev-stat"><b>11–24%</b><span>reduction in rig mobilisation distance / fuel burned</span></div>
+              </div>
+              <div class="ev-src">Source: "Optimizing Rig Scheduling Through AI," SPE, 2022: constraint-based (Knapsack/VRP) AI scheduling benchmarked against conventional rig-scheduling methods across in-house case studies. The same study reports a trade-off worth weighing alongside the gains above: a 5% reduction in asset utilisation.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UC4 -->
+      <div class="uc-item" data-uc>
+        <div class="uc-marker">04</div>
+        <div class="uc-head-row">
+          <div class="uc-title">NPT classification &amp; root-cause analysis</div>
+          <span class="uc-priority pr-high">High priority</span>
+        </div>
+        <dl class="uc-fields">
+          <div class="uc-field"><dt>Operational problem</dt><dd>NPT is recorded in free-text daily reports, worded differently by every engineer and every rig, making it impossible to benchmark or spot a recurring cause at scale.</dd></div>
+          <div class="uc-field"><dt>AI intervention</dt><dd>Reads every daily report, extracts NPT event start/end times, classifies each against one standard taxonomy, and rolls the results up across wells and contractors.</dd></div>
+          <div class="uc-field"><dt>Human user</dt><dd>Drilling engineer / performance analyst.</dd></div>
+          <div class="uc-field"><dt>Action enabled</dt><dd>The company addresses the specific recurring cause (a procedure, a contractor, a formation) instead of re-diagnosing it well by well.</dd></div>
+          <div class="uc-field span2"><dt>Data required</dt><dd>Daily drilling reports (free text), historical NPT logs, contractor/service-line records.</dd></div>
+          <div class="uc-field span2"><dt>Success measure</dt><dd>Classification accuracy · time to prepare an NPT analysis · reduction in repeat NPT events.</dd></div>
+        </dl>
+        <div class="uc-evidence">
+          <h4>Evidence</h4>
+          <div class="uc-evidence-grid">
+            <div class="chart-wrap"><canvas id="chartUC4"></canvas></div>
+            <div>
+              <div class="ev-stat-row">
+                <div class="ev-stat"><b>$4.2M</b><span>saved across a 100-well campaign, one AI-DDR deployment</span></div>
+                <div class="ev-stat"><b>30%</b><span>increase in drilling-engineer productivity, same deployment</span></div>
+              </div>
+              <div class="ev-src">Sources: Provectus / US upstream operator case study, 2026 (weeks of manual DDR review cut to hours; $4.2M saved and one month of rig time recovered across a 100-well campaign; 30% productivity increase); JPME 2024, 26-rig NPT-coding study (overall NPT 24.9% → 17.7%; contractor-related NPT 11.2% → 5.4%; ~$40M saved per rig set annually).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UC5 -->
+      <div class="uc-item" data-uc>
+        <div class="uc-marker">05</div>
+        <div class="uc-head-row">
+          <div class="uc-title">Equipment failure prediction</div>
+          <span class="uc-priority pr-low">Lower priority, for now</span>
+        </div>
+        <dl class="uc-fields">
+          <div class="uc-field"><dt>Operational problem</dt><dd>Unplanned failure of critical equipment, such as mud pumps or top drives, stops the entire operation with no warning.</dd></div>
+          <div class="uc-field"><dt>AI intervention</dt><dd>Monitors vibration, pressure and performance trends against normal operating signatures to flag degradation before failure.</dd></div>
+          <div class="uc-field"><dt>Human user</dt><dd>Rig maintenance lead.</dd></div>
+          <div class="uc-field"><dt>Action enabled</dt><dd>Repair is scheduled during a planned pause (a trip, a connection) instead of an unplanned stoppage.</dd></div>
+          <div class="uc-field span2"><dt>Data required</dt><dd>Continuous vibration/condition sensors, maintenance history, equipment performance logs. This is the main constraint on this use case.</dd></div>
+          <div class="uc-field span2"><dt>Success measure</dt><dd>Downtime avoided · unplanned-failure rate · maintenance cost vs. downtime cost avoided.</dd></div>
+        </dl>
+        <div class="uc-evidence">
+          <h4>Evidence</h4>
+          <div class="uc-evidence-grid">
+            <div class="chart-wrap"><canvas id="chartUC5"></canvas></div>
+            <div>
+              <div class="ev-stat-row">
+                <div class="ev-stat"><b>$320k</b><span>in equipment cost &amp; downtime avoided, one 5-month pilot</span></div>
+                <div class="ev-stat"><b>27 days/yr</b><span>average unplanned downtime an offshore rig otherwise carries</span></div>
+              </div>
+              <div class="ev-src">Sources: Precision Drilling Digital Twin case study, 2025 (proactive mobilisation on a suspected traction-motor failure cut downtime by &gt;50%); KCF Technologies / RigCLOUD, Nabors pilot (4 rigs, 96 sensors, 5 months: $320,000 in avoided equipment cost and downtime); ACOEM offshore case study (20% reduction in unplanned downtime, 15% lower maintenance cost); Kimberlite, via Avathon (average offshore rig: 27 unplanned downtime days/year, ~$38M in losses).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="light section-pad" id="architecture">
+  <div class="wrap">
+    <div class="eyebrow">One layer underneath all five</div>
+    <h2 class="heading">How this would actually get built</h2>
+    <p class="sub">The five use cases above don't need five separate systems. They share one pipeline, with a different specialised agent doing the work at each stage, and a human approving the output every time.</p>
+
+    <div class="arch-flow">
+      <div class="arch-step">
+        <div class="arch-num">1</div>
+        <h4>Aggregate</h4>
+        <p>Daily reports, end-of-well reports and, where available, live rig telemetry are pulled into one place and cleaned.</p>
+      </div>
+      <div class="arch-connector">→</div>
+      <div class="arch-step">
+        <div class="arch-num">2</div>
+        <h4>Specialised agents</h4>
+        <p>One agent per job (offset-well retrieval, anomaly detection, schedule-constraint checking, NPT classification, condition monitoring), each narrow enough to validate on its own.</p>
+      </div>
+      <div class="arch-connector">→</div>
+      <div class="arch-step">
+        <div class="arch-num">3</div>
+        <h4>Human sign-off</h4>
+        <p>Every flag, plan change or classification is traced back to its source document or sensor reading before the accountable person acts on it.</p>
+      </div>
+      <div class="arch-connector">→</div>
+      <div class="arch-step">
+        <div class="arch-num">4</div>
+        <h4>Closed-loop learning</h4>
+        <p>What actually happened after each decision (right call, false alarm, missed event) feeds back in, so the next well starts smarter than the last.</p>
+      </div>
+    </div>
+    <p class="arch-note">This is a build-order, not a feature list: stage 1–2 needs only the documents already on file (use cases #1 and #4); stage 2's real-time agents (#2) need a live rig data connection first; stage 4 only becomes possible once enough wells have been through the loop to learn from.</p>
+  </div>
+</section>
+
+<section class="further">
+  <div class="wrap">
+    <div class="eyebrow">Where to begin</div>
+    <h2 class="heading">Two of these five already run on data that exists today</h2>
+    <p class="sub"></p>
+    <div class="closing-note">
+      <p>Pre-spud offset-well intelligence and NPT classification (#1 and #4) are placed first because they run on data that already exists today, daily reports and end-of-well reports, with nothing new to instrument or connect.. Real-time early warning (#2) addresses the single largest share of NPT of any use case here, but it depends on a live data connection to the rig rather than documents alone, which is a different kind of undertaking. Daily lookahead (#3) and equipment failure prediction (#5) are just as real and just as evidenced, but each depends on a data feed, logistics status for one, continuous sensor data for the other, that isn't uniformly in place across every rig yet.</p>
+      <p>None of this is a judgment on which use case matters most; it's a reflection of what each one needs before it can run. In short, the best use case is the one that helps a team prevent a problem, catch it earlier, recover faster, or stop repeating it on the next well, and right now, that starting point is sitting in the reports already on file.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Non-productive time reduction: AI use case response</span>
+    <span>Full source list in each use case's evidence panel</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const progress = document.getElementById('progress');
+  function onScroll(){
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progress.style.width = (scrolled || 0) + '%';
+    parallax(); spine(); checkChartReveals();
+  }
+  const orbs = Array.from(document.querySelectorAll('[data-parallax]'));
+  function parallax(){
+    const y = window.scrollY;
+    orbs.forEach(el=>{ const s = parseFloat(el.getAttribute('data-parallax')); el.style.transform = 'translateY(' + (y*s) + 'px)'; });
+  }
+  const list = document.getElementById('ucList');
+  const fill = document.getElementById('spineFill');
+  const items = Array.from(document.querySelectorAll('[data-uc]'));
+  function spine(){
+    const rect = list.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const total = rect.height;
+    const start = rect.top - vh*0.55;
+    let frac = (-start) / total;
+    frac = Math.max(0, Math.min(1, frac));
+    fill.style.height = (frac*100) + '%';
+    const activeCount = Math.round(frac * items.length);
+    items.forEach((it,i)=> it.classList.toggle('active', i < activeCount));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', ()=>{ parallax(); spine(); });
+
+  const NAVY='#10263B', RUST='#B75A35', TEAL='#2E8C82', LINE='#DCE3E7', GRAY='#5C6B78';
+  function bf(){ return { family:'Inter, sans-serif', size:11 }; }
+  function whenChartReady(fn){
+    if(typeof Chart !== 'undefined'){ fn(); return; }
+    let tries=0; const t=setInterval(()=>{ tries++; if(typeof Chart!=='undefined'){ clearInterval(t); fn(); } else if(tries>50){ clearInterval(t); } },100);
+  }
+
+  // Each chart plays its reveal animation exactly once, the first time it
+  // scrolls into view, then holds at its final values. It does not replay
+  // or reverse on further scrolling in either direction.
+  function makeReveal(id, type, labels, datasetsMeta, titleText, tickSuffix){
+    const ctx = document.getElementById(id);
+    if(!ctx || ctx.dataset.done) return;
+    ctx.dataset.done = '1';
+    whenChartReady(()=>{
+      const datasets = datasetsMeta.map(d => ({
+        label: d.label || '', data: d.data, backgroundColor: d.color, borderRadius:4, maxBarThickness: d.thick || 60
+      }));
+      new Chart(ctx, {
+        type: type,
+        data: { labels: labels, datasets: datasets },
+        options: {
+          responsive:true, maintainAspectRatio:false,
+          animation:{ duration: 900, easing:'easeOutQuart' },
+          plugins:{
+            legend: datasetsMeta.length>1 && datasetsMeta[0].label ? { position:'bottom', labels:{font:bf(), color:GRAY, boxWidth:10, padding:12} } : { display:false },
+            title:{ display:true, text:titleText, font:{size:11,family:'Inter'}, color:GRAY }
+          },
+          scales:{
+            y:{ beginAtZero:true, grid:{color:LINE}, ticks:{color:GRAY, font:bf(), callback:v=>v+tickSuffix} },
+            x:{ grid:{display:false}, ticks:{color:GRAY, font:bf()} }
+          }
+        }
+      });
+    });
+  }
+
+  // A chart plays its reveal exactly once: the first time its top edge
+  // crosses comfortably into the viewport while scrolling. It is then
+  // marked done permanently and never re-triggers, forward or backward.
+  const chartIds = ['chartUC1','chartUC2','chartUC3','chartUC4','chartUC5'];
+  const chartTriggered = {};
+  function checkChartReveals(){
+    const vh = window.innerHeight;
+    chartIds.forEach(id=>{
+      if(chartTriggered[id]) return;
+      const el = document.getElementById(id);
+      if(!el) return;
+      const rect = el.getBoundingClientRect();
+      if(rect.top < vh * 0.88 && rect.bottom > 0){
+        chartTriggered[id] = true;
+        initChart(id);
+      }
+    });
+  }
+  function initChart(id){
+    if(id==='chartUC1'){
+      makeReveal('chartUC1','bar',['Manual offset-well search','AI-structured search'],
+        [{ data:[5,0.21], color:[RUST,TEAL] }],
+        'Offset-well search effort, days per project', 'd');
+    }
+    if(id==='chartUC2'){
+      makeReveal('chartUC2','bar',['Historical SPR method (shale wells)','Field-validated hybrid model'],
+        [{ data:[0.63,19], color:[RUST,TEAL] }],
+        'Stuck-pipe warning lead time, hours', 'h');
+    }
+    if(id==='chartUC3'){
+      makeReveal('chartUC3','bar',['Fuel/distance reduction, low estimate','Fuel/distance reduction, high estimate'],
+        [{ data:[11,24], color:[TEAL,TEAL], thick:70 }],
+        'Fuel & distance savings from AI-optimised scheduling, %', '%');
+    }
+    if(id==='chartUC4'){
+      makeReveal('chartUC4','bar',['Overall NPT','Contractor-related NPT'],
+        [{ label:'Before standardised coding', data:[24.9,11.2], color:RUST, thick:46 },
+         { label:'After standardised coding', data:[17.7,5.4], color:TEAL, thick:46 }],
+        'NPT %, before vs. after automated classification (26 rigs)', '%');
+    }
+    if(id==='chartUC5'){
+      makeReveal('chartUC5','bar',['Precision Drilling (digital twin)','ACOEM (offshore case)'],
+        [{ data:[50,20], color:[TEAL,NAVY] }],
+        'Unplanned downtime reduction, % (two deployments)', '%');
+    }
+  }
+
+  onScroll();
+})();
+</script>
+</body>
+</html>
