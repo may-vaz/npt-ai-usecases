@@ -1,6 +1,6 @@
 # AI Use Cases: Reducing Non-Productive Time in Drilling & Well Delivery
 
-An interactive response to the technical assignment: *"What are the best
+An interactive response: *"What are the best
 use cases for AI to reduce non-productive time in drilling and well
 delivery?"*
 
