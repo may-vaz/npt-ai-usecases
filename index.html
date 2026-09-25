@@ -115,6 +115,8 @@
   .ev-stat b{ display:block; font-family:var(--font-head); font-size:24px; color:var(--navy); }
   .ev-stat span{ font-size:11.5px; color:var(--gray); }
   .ev-src{ margin-top:14px; font-size:11px; color:#8996A2; line-height:1.5; }
+  .ev-src a{ color:var(--teal); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:2px; }
+  .ev-src a:hover{ color:var(--navy); }
 
   /* FURTHER */
   .further{ background:var(--navy); color:#fff; padding:104px 0; }
@@ -137,7 +139,7 @@
   <div class="hero-orb orb-b" data-parallax="0.22"></div>
   <div class="hero-orb orb-c" data-parallax="0.08"></div>
   <div class="wrap hero-inner">
-    <div class="hero-kicker">Technical response · Well delivery &amp; drilling performance</div>
+    <div class="hero-kicker">Well delivery &amp; drilling performance</div>
     <h1>What are the best AI use cases for cutting non-productive time in drilling and well delivery?</h1>
     <p class="lede">Five use cases, each defined as: a specific delay, the data behind it, what the AI does, who acts on it, and how the result is measured.</p>
   </div>
@@ -160,7 +162,7 @@
     <table class="prio-table">
       <tr><th>Use case</th><th>Priority</th><th>Why this ranking</th></tr>
       <tr><td>1 · Pre-spud offset-well intelligence</td><td><span class="prio-dot dot-high"></span>High</td><td>Runs entirely on documents that already exist; fastest time to value</td></tr>
-      <tr><td>2 · Real-time early warning</td><td><span class="prio-dot dot-high"></span>High</td><td>Largest single NPT category, but needs live rig connectivity to deploy</td></tr>
+      <tr><td>2 · Real-time early warning</td><td><span class="prio-dot dot-high"></span>High</td><td>Potentially high impact because it can identify developing downhole problems before they become major NPT events; requires live rig connectivity to deploy</td></tr>
       <tr><td>3 · Daily lookahead &amp; constraint management</td><td><span class="prio-dot dot-mid"></span>Medium</td><td>High value, but depends on clean logistics/status data feeds</td></tr>
       <tr><td>4 · NPT classification &amp; root-cause analysis</td><td><span class="prio-dot dot-high"></span>High</td><td>Same document base as #1; turns tracking into a benchmarking asset</td></tr>
       <tr><td>5 · Equipment failure prediction</td><td><span class="prio-dot dot-low"></span>Lower (for now)</td><td>Real value shown in pilots, but needs continuous sensor + maintenance data most rigs don't yet log consistently</td></tr>
@@ -186,10 +188,10 @@
           <span class="uc-priority pr-high">High priority</span>
         </div>
         <dl class="uc-fields">
-          <div class="uc-field"><dt>Operational problem</dt><dd>Engineers spend a disproportionate share of well-planning time searching, cross-checking and reformatting old reports instead of deciding, most of it going into offset-well analysis rather than judgment.</dd></div>
+          <div class="uc-field"><dt>Operational problem</dt><dd>Engineers spend a disproportionate share of well-planning time searching, cross-checking and reformatting old reports rather than making engineering decisions. Much of that effort goes into offset-well analysis instead of engineering judgment.</dd></div>
           <div class="uc-field"><dt>AI intervention</dt><dd>Reads historical end-of-well reports and daily reports, structures them, and surfaces comparable offset wells, past risks and mitigations that actually worked.</dd></div>
           <div class="uc-field"><dt>Human user</dt><dd>Drilling / well engineer during well planning.</dd></div>
-          <div class="uc-field"><dt>Action enabled</dt><dd>The plan is amended, or a contingency is added, before spud, not discovered mid-well.</dd></div>
+          <div class="uc-field"><dt>Action enabled</dt><dd>The plan is amended, or a contingency is added, before spud, rather than being discovered mid-well.</dd></div>
           <div class="uc-field span2"><dt>Data required</dt><dd>End-of-well reports, daily reports, well logs, historical risk registers.</dd></div>
           <div class="uc-field span2"><dt>Success measure</dt><dd>Planning time saved · number of relevant historical lessons surfaced · risks caught before spud.</dd></div>
         </dl>
@@ -199,10 +201,10 @@
             <div class="chart-wrap"><canvas id="chartUC1"></canvas></div>
             <div>
               <div class="ev-stat-row">
-                <div class="ev-stat"><b>&gt;40%</b><span>of engineers' time spent searching &amp; validating, not deciding</span></div>
-                <div class="ev-stat"><b>5s</b><span>to retrieve a ranked offset-well shortlist via vector search</span></div>
+                <div class="ev-stat"><b>&gt;40%</b><span>of engineers' time spent searching, cross-checking and validating instead of deciding</span></div>
+                <div class="ev-stat"><b>Under 5 seconds</b><span>to retrieve a ranked offset-well shortlist via vector search</span></div>
               </div>
-              <div class="ev-src">Sources: Baker Hughes JewelSuite Well Engineering (offset-well search reduced from 5 days to 5 hours per project); Vertechs field note, 2026 ("engineers often spend over 40% of their time searching, cross-checking and validating information"); AADE-26-FTCE-102 (Morrison): offset-well vector search returned in under 5 seconds.</div>
+              <div class="ev-src">Sources: <a href="https://www.bakerhughes.com/jewelsuite-offsetanalyzer" target="_blank" rel="noopener">Baker Hughes JewelSuite Well Engineering</a> (offset-well search reduced from 5 days to 5 hours per project); Vertechs field note, 2026 ("engineers often spend over 40% of their time searching, cross-checking and validating information"); AADE-26-FTCE-102 (Morrison): offset-well vector search returned in under 5 seconds.</div>
             </div>
           </div>
         </div>
@@ -219,8 +221,8 @@
           <div class="uc-field"><dt>Operational problem</dt><dd>Stuck pipe, pack-off, poor hole cleaning and losses often only become obvious once the situation has already deteriorated.</dd></div>
           <div class="uc-field"><dt>AI intervention</dt><dd>Analyses live torque, drag, ROP, pressure and hole-depth data and flags combinations of signals matching historical problem patterns.</dd></div>
           <div class="uc-field"><dt>Human user</dt><dd>Driller, drilling engineer and mud engineer.</dd></div>
-          <div class="uc-field"><dt>Action enabled</dt><dd>The team investigates and applies the approved operating procedure while there is still time to respond. The AI never controls the rig; it flags, the crew decides.</dd></div>
-          <div class="uc-field span2"><dt>Data required</dt><dd>Torque, drag, ROP, standpipe pressure, flow, hole depth, mud properties, historical stuck-pipe/kick event records.</dd></div>
+          <div class="uc-field"><dt>Action enabled</dt><dd>The team investigates and applies the approved operating procedure while there is still time to respond. The AI never controls the rig; it flags the potential problem, and the crew decides how to respond.</dd></div>
+          <div class="uc-field span2"><dt>Data required</dt><dd>Torque, drag, ROP, standpipe pressure, flow, hole depth, mud properties, historical stuck-pipe and kick-event records.</dd></div>
           <div class="uc-field span2"><dt>Success measure</dt><dd>Warning lead time · false-alert rate · number of alerts acted on successfully · avoided NPT hours.</dd></div>
         </dl>
         <div class="uc-evidence">
@@ -232,7 +234,7 @@
                 <div class="ev-stat"><b>1.5%</b><span>false-positive drilling hours in field-validated model</span></div>
                 <div class="ev-stat"><b>F1 ≈ 0.75</b><span>event-level detection score, same field trial</span></div>
               </div>
-              <div class="ev-src">Sources: EAGE hybrid stuck-pipe workflow, field-validated on Asian wells, 2026 (all major events alerted, 19-hour average lead time, 1.5% false-positive drilling hours, F1 ≈ 0.75); Salminen et al., SPE-178888-PA, 2017 (Weatherford SPR method: 38-minute average lead time on shale wells, 2+ hours on a carbonate well, zero false alerts across the historical test set).</div>
+              <div class="ev-src">Sources: EAGE hybrid stuck-pipe workflow, field-validated on Asian wells, 2026 (all major events alerted, 19-hour average lead time, 1.5% false-positive drilling hours, F1 ≈ 0.75); <a href="https://onepetro.org/DC/article-abstract/32/03/184/205973/Stuck-Pipe-Prediction-by-Use-of-Automated-Real?redirectedFrom=fulltext" target="_blank" rel="noopener">Salminen et al., SPE-178888-PA, 2017</a> (Weatherford SPR method: 38-minute average lead time on shale wells, 2+ hours on a carbonate well, zero false alerts across the historical test set).</div>
             </div>
           </div>
         </div>
@@ -260,9 +262,9 @@
             <div>
               <div class="ev-stat-row">
                 <div class="ev-stat"><b>99%</b><span>less time to generate an optimal schedule vs. manual methods</span></div>
-                <div class="ev-stat"><b>11–24%</b><span>reduction in rig mobilisation distance / fuel burned</span></div>
+                <div class="ev-stat"><b>11–24%</b><span>reduction in rig mobilisation distance and fuel consumption</span></div>
               </div>
-              <div class="ev-src">Source: "Optimizing Rig Scheduling Through AI," SPE, 2022: constraint-based (Knapsack/VRP) AI scheduling benchmarked against conventional rig-scheduling methods across in-house case studies. The same study reports a trade-off worth weighing alongside the gains above: a 5% reduction in asset utilisation.</div>
+              <div class="ev-src">Source: <a href="https://onepetro.org/SPEADIP/proceedings-abstract/22ADIP/2-22ADIP/513268" target="_blank" rel="noopener">"Optimizing Rig Scheduling Through AI," SPE, 2022</a>: constraint-based (Knapsack/VRP) AI scheduling benchmarked against conventional rig-scheduling methods across in-house case studies. The same study reports a trade-off worth weighing alongside the gains above: a 5% reduction in asset utilisation.</div>
             </div>
           </div>
         </div>
@@ -292,7 +294,7 @@
                 <div class="ev-stat"><b>$4.2M</b><span>saved across a 100-well campaign, one AI-DDR deployment</span></div>
                 <div class="ev-stat"><b>30%</b><span>increase in drilling-engineer productivity, same deployment</span></div>
               </div>
-              <div class="ev-src">Sources: Provectus / US upstream operator case study, 2026 (weeks of manual DDR review cut to hours; $4.2M saved and one month of rig time recovered across a 100-well campaign; 30% productivity increase); JPME 2024, 26-rig NPT-coding study (overall NPT 24.9% → 17.7%; contractor-related NPT 11.2% → 5.4%; ~$40M saved per rig set annually).</div>
+              <div class="ev-src">Sources: <a href="https://provectus.com/ai-in-upstream-oil-gas-strategic-guide-for-drilling-applications/" target="_blank" rel="noopener">Provectus / US upstream operator case study</a>, 2026, vendor-reported (weeks of manual DDR review cut to hours; $4.2M saved and one month of rig time recovered across a 100-well campaign; 30% productivity increase); JPME 2024, 26-rig NPT-coding study (overall NPT 24.9% → 17.7%; contractor-related NPT 11.2% → 5.4%; approximately $40M saved per rig set annually).</div>
             </div>
           </div>
         </div>
@@ -320,9 +322,9 @@
             <div>
               <div class="ev-stat-row">
                 <div class="ev-stat"><b>$320k</b><span>in equipment cost &amp; downtime avoided, one 5-month pilot</span></div>
-                <div class="ev-stat"><b>27 days/yr</b><span>average unplanned downtime an offshore rig otherwise carries</span></div>
+                <div class="ev-stat"><b>27 days/year</b><span>reported average annual unplanned downtime for an offshore rig</span></div>
               </div>
-              <div class="ev-src">Sources: Precision Drilling Digital Twin case study, 2025 (proactive mobilisation on a suspected traction-motor failure cut downtime by &gt;50%); KCF Technologies / RigCLOUD, Nabors pilot (4 rigs, 96 sensors, 5 months: $320,000 in avoided equipment cost and downtime); ACOEM offshore case study (20% reduction in unplanned downtime, 15% lower maintenance cost); Kimberlite, via Avathon (average offshore rig: 27 unplanned downtime days/year, ~$38M in losses).</div>
+              <div class="ev-src">Sources: Precision Drilling Digital Twin case study, 2025 (proactive mobilization on a suspected traction-motor failure cut downtime by &gt;50%); <a href="https://kcftech.com/case-study/nabors-avoids-320000-in-equipment-costs/" target="_blank" rel="noopener">KCF Technologies / RigCLOUD, Nabors pilot</a> (4 rigs, 96 sensors, 5 months: $320,000 in avoided equipment cost and downtime); <a href="https://www.acoem.com/en/case-studies/enhanced-offshore-operations-with-acoems-eagle-wireless-sensors-and-mv-x-multi-channel-systems/" target="_blank" rel="noopener">ACOEM offshore case study</a> (20% reduction in unplanned downtime, 15% lower maintenance cost); <a href="https://avathon.com/blog/minimizing-critical-drilling-rig-failures-with-ai-enabled-predictive-maintenance/" target="_blank" rel="noopener">Kimberlite, via Avathon</a> (average offshore rig: 27 unplanned downtime days/year, approximately $38M in losses).</div>
             </div>
           </div>
         </div>
@@ -363,17 +365,17 @@
         <p>What actually happened after each decision (right call, false alarm, missed event) feeds back in, so the next well starts smarter than the last.</p>
       </div>
     </div>
-    <p class="arch-note">This is a build-order, not a feature list: stage 1–2 needs only the documents already on file (use cases #1 and #4); stage 2's real-time agents (#2) need a live rig data connection first; stage 4 only becomes possible once enough wells have been through the loop to learn from.</p>
+    <p class="arch-note">This is a build-order, not a feature list: use cases #1 and #4 can start with documents already on file. Use case #2 requires a live rig-data connection. Use case #3 requires logistics and status feeds, while use case #5 requires continuous condition-monitoring data. Closed-loop learning becomes more valuable once enough wells have been through the process to learn from.</p>
   </div>
 </section>
 
 <section class="further">
   <div class="wrap">
     <div class="eyebrow">Where to begin</div>
-    <h2 class="heading">Two of these five already run on data that exists today</h2>
+    <h2 class="heading">Two of these five can start with data that already exists today</h2>
     <p class="sub"></p>
     <div class="closing-note">
-      <p>Pre-spud offset-well intelligence and NPT classification (#1 and #4) are placed first because they run on data that already exists today, daily reports and end-of-well reports, with nothing new to instrument or connect.. Real-time early warning (#2) addresses the single largest share of NPT of any use case here, but it depends on a live data connection to the rig rather than documents alone, which is a different kind of undertaking. Daily lookahead (#3) and equipment failure prediction (#5) are just as real and just as evidenced, but each depends on a data feed, logistics status for one, continuous sensor data for the other, that isn't uniformly in place across every rig yet.</p>
+      <p>Pre-spud offset-well intelligence and NPT classification (#1 and #4) are placed first because they can start with data already available today, such as daily drilling reports and end-of-well reports, without new instrumentation or integrations. Real-time early warning (#2) is potentially one of the highest-impact use cases, but it depends on a live data connection to the rig rather than documents alone. Daily lookahead (#3) and equipment failure prediction (#5) are equally credible, but each depends on an additional data feed: logistics and status data for the former, and continuous sensor data for the latter. These feeds are not uniformly available across every rig.</p>
       <p>None of this is a judgment on which use case matters most; it's a reflection of what each one needs before it can run. In short, the best use case is the one that helps a team prevent a problem, catch it earlier, recover faster, or stop repeating it on the next well, and right now, that starting point is sitting in the reports already on file.</p>
     </div>
   </div>
@@ -504,5 +506,5 @@
   onScroll();
 })();
 </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a408f988bf232ce4',t:'MTc5MDMyODI1NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
